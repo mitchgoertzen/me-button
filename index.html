@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Me Button</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.js"></script>
+    
+    <style>
+      .container {
+        width: auto;
+        height: 97vh;
+        margin: 5px;
+
+      }
+
+      .rain {
+        z-index: 1;
+        position: absolute;
+        top: 8px;
+        left: 13px;
+      }
+      
+      .fire {
+        position: absolute;
+        overflow-x:hidden;
+      }
+
+      .selector {
+        z-index: 2;
+        position: absolute;
+        top: 80%; 
+        left: 3%; 
+      }
+
+      .character {
+        z-index: 2;
+        position: absolute;
+        bottom: 15%;
+        left: 15%;
+      }
+
+      .button {
+        z-index: 2;
+        position: absolute;
+        bottom: 50%;
+        left: 100%;
+      }
+      
+      .musicImg{
+        z-index: 2;
+        position: absolute;
+        top: 8%;
+        left: 11%;
+      }
+    </style>
+    
+    <script>
+    $(document).ready(function(){
+      //variables for image of song being selected  
+      let one = "https://cdn.glitch.com/7e0f08cb-80e1-4060-9233-937979397e42%2FsongSelectDefault.png?v=1633109508809"
+      let two = "https://cdn.glitch.com/7e0f08cb-80e1-4060-9233-937979397e42%2FsongSelectMetal.png?v=1633109508927"
+      let three = "https://cdn.glitch.com/7e0f08cb-80e1-4060-9233-937979397e42%2FsongSelectRainy.png?v=1633109508809"
+      let four = "https://cdn.glitch.com/7e0f08cb-80e1-4060-9233-937979397e42%2FsongSelectSummer.png?v=1633109508840"
+      
+      let phoneAcoustic = "https://cdn.glitch.com/7e0f08cb-80e1-4060-9233-937979397e42%2FphoneAcoustic.png?v=1633108178702"
+      let phoneMetal = "https://cdn.glitch.com/7e0f08cb-80e1-4060-9233-937979397e42%2FphoneMetal.png?v=1633108178636"
+      let phoneRainy = "https://cdn.glitch.com/7e0f08cb-80e1-4060-9233-937979397e42%2FphoneRainy.png?v=1633108178800"
+      let phoneSummer = "https://cdn.glitch.com/7e0f08cb-80e1-4060-9233-937979397e42%2FphoneSummer.png?v=1633108179110"
+      
+      
+      //references div of selector
+      let selectBox = document.getElementById("selectBox")
+      //value of song being selected
+      let nextSong = 10
+      
+      let song = document.getElementById(nextSong)
+     
+      
+      /*
+      *
+      *
+      * uncomment for final version
+      *
+      *
+      */
+      song.play()
+      
+      
+      let currentImg = 1 
+      
+      let rainOverlay = document.getElementById("rainOverlay")
+      rainOverlay.style.visibility = 'hidden'
+      
+      
+      let phoneScreen = document.getElementById("phoneScreen")
+      
+      let fireSmall = "https://cdn.glitch.com/7e0f08cb-80e1-4060-9233-937979397e42%2FfireSmall.gif?v=1633106114227"
+      let smoke = "https://cdn.glitch.com/7e0f08cb-80e1-4060-9233-937979397e42%2Fsmoke.gif?v=1633103207708"
+      
+      let fireImg = document.getElementById("fire")
+      
+      //when the mosue wheel is scrolled
+        $(document).on("mousewheel", function(e){
+          //math to determine whehter it moves up or down
+          //moves up -> select next song
+          //moves down -> select previous song
+          if(e.originalEvent.wheelDelta /120 < 0) {
+            //reaches last song, loop back to beginning
+            if(nextSong == 40){
+              nextSong = 0
+            }
+            nextSong = nextSong + 10
+            }
+          else{
+            //reaches first song, loop back to end
+              if(nextSong == 10){
+              nextSong = 50
+              }
+          nextSong = nextSong - 10
+          }
+          
+          //after the mosue has been moved, change the selector image according to nextSong value
+        switch(nextSong) {
+           case 10: selectBox.src=one
+            break;
+           case 20: selectBox.src=two
+            break;
+            case 30: selectBox.src=three
+            break;
+           case 40: selectBox.src=four
+            break;
+           default:
+          } 
+        })
+      
+      $('#phone').click(function() {
+        
+        let overlay = document.getElementById("fireOverlay")
+        overlay.style.visibility = 'hidden'
+        fireImg = document.getElementById("fire3")
+        fireImg.style.visibility = 'hidden'
+        
+        //toggle rain on/off
+        if(nextSong == 30){
+          console.log(nextSong)
+          rainOverlay.style.visibility = 'visible'
+        }else{
+          rainOverlay.style.visibility = 'hidden'
+        }
+        
+        //switching songs
+        song.pause()
+        song = document.getElementById(nextSong)
+        song.volume = 0.5
+        song.currentTime = 0
+        song.play()
+          
+        
+        //all of the background links
+        let base = "url('https://cdn.glitch.com/7e0f08cb-80e1-4060-9233-937979397e42%2Fbase%20scene.png?v=1632865948801')"
+        let fire = "url('https://cdn.glitch.com/7e0f08cb-80e1-4060-9233-937979397e42%2Ffire%20scene.png?v=1632865948991')"
+        let rain = "url('https://cdn.glitch.com/7e0f08cb-80e1-4060-9233-937979397e42%2Frain%20scene.png?v=1632865949327')"
+        let summer = "url('https://cdn.glitch.com/7e0f08cb-80e1-4060-9233-937979397e42%2Fsummer%20scene.png?v=1632865948915')"
+        let moreFire = "url('https://cdn.glitch.com/7e0f08cb-80e1-4060-9233-937979397e42%2Fmore%20fire%20scene.png?v=1632865949047')"
+        let noFire = "url('https://cdn.glitch.com/7e0f08cb-80e1-4060-9233-937979397e42%2Fno%20fire%20scene.png?v=1633107826966')"
+        let img = document.getElementById("bkg")
+        
+        //all of the character links
+        let bChar = "https://cdn.glitch.com/7e0f08cb-80e1-4060-9233-937979397e42%2Fdefault.png?v=1633036216471"
+        let fChar = "https://cdn.glitch.com/7e0f08cb-80e1-4060-9233-937979397e42%2Ffire.png?v=1633036216105"
+        let rChar = "https://cdn.glitch.com/7e0f08cb-80e1-4060-9233-937979397e42%2Frain.png?v=1633036216325"
+        let sChar = "https://cdn.glitch.com/7e0f08cb-80e1-4060-9233-937979397e42%2Fsummer.png?v=1633036216016"
+        let mChar = "https://cdn.glitch.com/7e0f08cb-80e1-4060-9233-937979397e42%2Fmore_fire.png?v=1633036216199"
+        let nChar = "https://cdn.glitch.com/7e0f08cb-80e1-4060-9233-937979397e42%2Fsmoke.png?v=1633036216031"
+        let char = document.getElementById("char")
+        
+        
+        switch(nextSong){
+             case 10: phoneScreen.src=phoneAcoustic
+            break;
+           case 20: phoneScreen.src=phoneMetal
+            break;
+            case 30: phoneScreen.src=phoneRainy
+            break;
+           case 40: phoneScreen.src=phoneSummer
+            break;
+           default:
+        }
+        
+        
+        //Changing to fire background 
+        if ((nextSong == 10 && currentImg == 2) || (nextSong == 20 && (currentImg == 1 || currentImg == 2))){
+          img.style.backgroundImage = fire
+          currentImg = 2
+          char.src = fChar 
+          
+          overlay.style.visibility = 'visible'
+          fireImg = document.getElementById("fire")
+          fireImg.src=fireSmall
+          fireImg = document.getElementById("fire1")
+          fireImg.src=fireSmall
+          fireImg = document.getElementById("fire2")
+          fireImg.src=fireSmall
+          
+        }
+        //Changing to rain background 
+        else if (nextSong == 30){
+          img.style.backgroundImage = rain
+          currentImg = 3
+          char.src = rChar
+        }
+        //Changing to summer background
+        else if (nextSong == 40 && (currentImg in [,1,,3,4,,6])){
+          img.style.backgroundImage = summer
+          currentImg = 4
+          char.src = sChar
+        }
+        //Changing to more fire background
+        else if ((nextSong == 10 && currentImg == 5) || (nextSong == 20 && (currentImg == 4 || currentImg == 5)) || (nextSong == 40 && (currentImg == 2 || currentImg == 5))){
+          img.style.backgroundImage = moreFire
+          currentImg = 5
+          char.src = mChar
+          
+          let fire = "https://cdn.glitch.com/7e0f08cb-80e1-4060-9233-937979397e42%2Ffire.gif?v=1633103208864"
+          overlay.style.visibility = 'visible'
+          fireImg = document.getElementById("fire")
+          fireImg.src=fire
+          fireImg = document.getElementById("fire1")
+          fireImg.src=fire
+          fireImg = document.getElementById("fire2")
+          fireImg.src=fire
+          fireImg = document.getElementById("fire3")
+          fireImg.src=fire
+          fireImg.style.visibility = 'visible'
+        }
+        //Changing to no fire background 
+        else if (nextSong == 20 && (currentImg == 3 || currentImg == 6)){
+          img.style.backgroundImage = noFire
+          currentImg = 6
+          char.src = nChar
+          
+          fireImg = document.getElementById("fire")
+          fireImg.src=smoke
+          fireImg = document.getElementById("fire1")
+          fireImg.src=smoke
+          fireImg = document.getElementById("fire2")
+          fireImg.src=smoke
+          overlay.style.opacity = 0.7
+          overlay.style.visibility = 'visible'
+          
+        }
+        //Changing to base background 
+        else if (nextSong == 10 && (currentImg in [,1,,3,4,,6])) {
+          img.style.backgroundImage = base
+          currentImg = 1
+          char.src = bChar
+        }
+      })
+    })
+    </script>
+  </head>
+  
+  <body style="overflow-x:hidden; overflow-y:hidden;">
+    <div id="bkg" class="container" style="background-size:100% 100%; background-image: url('https://cdn.glitch.com/7e0f08cb-80e1-4060-9233-937979397e42%2Fbase%20scene.png?v=1632865948801');">
+      
+      
+      
+      <!---I moved the phone inside the charcter div and the charcter inside the container div--->
+      <div id="fireOverlay">
+        <img class="fire" id="fire" style=" bottom: 23%; left: -5%;"/>
+       <img class="fire" id="fire1" style=" bottom: 30%; right: -2%;"/>
+       <img class="fire" id="fire2" style=" bottom: 40%; left: 28%;"/>
+      <img class="fire" id="fire3" style=" bottom: 25%; left: 46%;"/>
+      </div>
+
+
+      
+        <div class="character">
+          <img id="char" style=" width: 200px; height: 400px; "src="https://cdn.glitch.com/7e0f08cb-80e1-4060-9233-937979397e42%2Fdefault.png?v=1633036216471"/>
+          <div class="button">
+            <div id="phone" style="width: 130px; height: 200px;">
+              <img id="phoneScreen" style="position: absolute; width: 90%; height: auto;" src="https://cdn.glitch.com/7e0f08cb-80e1-4060-9233-937979397e42%2FphoneAcoustic.png?v=1633108178702">
+              
+              <div class="musicImg">
+                <img style="width: 100px; height: 100px;" src="https://cdn.glitch.com/7e0f08cb-80e1-4060-9233-937979397e42%2FmusicGif.gif?v=1633103211926"/>
+              </div>
+              
+              
+              <div class="selector">
+                <img id="selectBox" style="width: 110px" src="https://cdn.glitch.com/7e0f08cb-80e1-4060-9233-937979397e42%2FsongSelectDefault.png?v=1633109508809"/>
+              </div>
+              
+              
+            </div>
+          </div>
+        </div>
+      
+        <div>
+          <img id="rainOverlay" style=" width:98vw; height: 98vh;" src="https://cdn.glitch.com/7e0f08cb-80e1-4060-9233-937979397e42%2Frain.gif?v=1632866396188"/>
+        </div>
+
+    </div>
+  </body>
+  
+
+  <!---references to each song--->
+  <audio loop id="10">
+    <source src="https://cdn.glitch.com/7e0f08cb-80e1-4060-9233-937979397e42%2Fdefault.mp3?v=1633020304491" type="audio/mpeg">
+  </audio>
+
+  <audio loop id="20">
+    <source src="https://cdn.glitch.com/7e0f08cb-80e1-4060-9233-937979397e42%2Fmetal.mp3?v=1633018962623" type="audio/mpeg">
+  </audio>
+
+  <audio loop id="30">
+    <source src="https://cdn.glitch.com/7e0f08cb-80e1-4060-9233-937979397e42%2Fsad.mp3?v=1633022908460" type="audio/mpeg">
+  </audio>
+
+  <audio loop id="40">
+    <source src="https://cdn.glitch.com/7e0f08cb-80e1-4060-9233-937979397e42%2Fsummer.mp3?v=1633020362460" type="audio/mpeg">
+  </audio>
+  
+</html>
